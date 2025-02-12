@@ -108,9 +108,6 @@ func main() {
 	`, scm)
 	_ = eval(`(evaluate "" 'flag2 #f)`, scm)
 
-	// _ = eval(`(cdr (assoc 'on flag-data))`, scm)
-	// _ = eval(`(find-by-key (cadr flag-data) 'on)`, scm)   // Should print #f
-	// _ = eval(`(find-by-key (cadr flag-data) 'version)`, scm)  // Should print 0
 }
 
 func eval(s string, scm *scheme.Scheme) scheme.Value {
