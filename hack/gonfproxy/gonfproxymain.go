@@ -9,41 +9,60 @@ import (
 )
 
 func main() {
-	// Create a new HTTP client
-	client := &http.Client{}
+	// Create handler for /gonf endpoint
+	http.HandleFunc("/gonf", func(w http.ResponseWriter, r *http.Request) {
+		// Create a new HTTP client
+		client := &http.Client{}
 
-	// Create the request
-	req, err := http.NewRequest("GET", "https://ld-stg.launchdarkly.com/sdk/latest-all", nil)
-	if err != nil {
-		fmt.Printf("Error creating request: %v\n", err)
-		return
+		// Create the request to LaunchDarkly
+		req, err := http.NewRequest("GET", "https://ld-stg.launchdarkly.com/sdk/latest-all", nil)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("Error creating request: %v", err), http.StatusInternalServerError)
+			return
+		}
+
+		// Add the Authorization header
+		req.Header.Add("Authorization", "sdk-68035835-ce25-4570-9eed-b71f5e86b0b4")
+
+		// Make the request
+		resp, err := client.Do(req)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("Error making request: %v", err), http.StatusInternalServerError)
+			return
+		}
+		defer resp.Body.Close()
+
+		// Read the response body
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("Error reading response: %v", err), http.StatusInternalServerError)
+			return
+		}
+
+		// Convert JSON to Scheme
+		scheme, err := json2scheme.JsonToScheme(body)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("Error converting to scheme: %v", err), http.StatusInternalServerError)
+			return
+		}
+
+		// Add the evaluate function definition
+		evaluateFunc := `(define (evaluate ctx flag-key default)
+			(assoc-cdr 'on (car (assoc-cdr flag-key (car (assoc-cdr 'flags payload)))))
+		)`
+		scheme = scheme + "\n" + evaluateFunc
+
+		// Set content type header
+		w.Header().Set("Content-Type", "text/plain")
+		
+		// Write the scheme response
+		fmt.Fprint(w, scheme)
+	})
+
+	// Start the server on port 8123
+	port := ":8123"
+	fmt.Printf("Starting server on %s/gonf\n", port)
+	if err := http.ListenAndServe(port, nil); err != nil {
+		fmt.Printf("Error starting server: %v\n", err)
 	}
-
-	// Add the Authorization header
-	req.Header.Add("Authorization", "sdk-68035835-ce25-4570-9eed-b71f5e86b0b4")
-
-	// Make the request
-	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Printf("Error making request: %v\n", err)
-		return
-	}
-	defer resp.Body.Close()
-
-	// Read the response body
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Printf("Error reading response: %v\n", err)
-		return
-	}
-
-	// Print the response
-	fmt.Println(string(body))
-
-	scheme, err := json2scheme.JsonToScheme(body)
-	if err == nil {
-		println(err)
-	}
-	fmt.Println(scheme)
-
 }

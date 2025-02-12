@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	url := "http://localhost:8080/your-endpoint" // Replace with your endpoint
-	pollInterval := 5 * time.Second              // Poll every 5 seconds
+	url := "http://localhost:8123/gonf" // Replace with your endpoint
+	pollInterval := 5 * time.Second     // Poll every 5 seconds
 
 	for {
 		resp, err := http.Get(url)
