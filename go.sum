@@ -36,6 +36,8 @@ github.com/launchdarkly/go-test-helpers/v3 v3.0.2 h1:rh0085g1rVJM5qIukdaQ8z1XTWZ
 github.com/launchdarkly/go-test-helpers/v3 v3.0.2/go.mod h1:u2ZvJlc/DDJTFrshWW50tWMZHLVYXofuSHUfTU/eIwM=
 github.com/mailru/easyjson v0.7.7 h1:UGYAvKxe3sBsEDzO8ZeWOSlIQfWFlxbzLZe7hwFURr0=
 github.com/mailru/easyjson v0.7.7/go.mod h1:xzfreul335JAWq5oZzymOObrkdz5UnU4kGfJJLY9Nlc=
+github.com/markkurossi/scheme v0.0.0-20240424081145-49dbbbdafd30 h1:YAeaI+6LbOzIvajD+jqjbBM9GXL0MKog2Zt3efSnwMQ=
+github.com/markkurossi/scheme v0.0.0-20240424081145-49dbbbdafd30/go.mod h1:B1H4EtGUwLQPJ8eT1gSwD8G3qnaTglBnfQzcXjnxI6w=
 github.com/patrickmn/go-cache v2.1.0+incompatible h1:HRMgzkcYKYpi3C8ajMPV8OFXaaRUnok+kx1WdO15EQc=
 github.com/patrickmn/go-cache v2.1.0+incompatible/go.mod h1:3Qf8kWWT7OJRJbdiICTKqZju1ZixQ/KpMGzzAfe6+WQ=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

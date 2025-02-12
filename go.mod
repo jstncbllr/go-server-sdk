@@ -13,6 +13,7 @@ require (
 	github.com/launchdarkly/go-sdk-events/v3 v3.4.0
 	github.com/launchdarkly/go-server-sdk-evaluation/v3 v3.0.1
 	github.com/launchdarkly/go-test-helpers/v3 v3.0.2
+	github.com/markkurossi/scheme v0.0.0-20240424081145-49dbbbdafd30
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/exp v0.0.0-20240808152545-0cdaa3abc0fa
