@@ -61,6 +61,31 @@ func main() {
 		fmt.Fprint(w, finalScheme)
 	})
 
+	http.HandleFunc("/other", func(w http.ResponseWriter, r *http.Request) {
+		payload := `
+		(define evaluate (ctx)
+			(/ (* ctx (find-bracket ctx)) 100)
+		)
+		(define find-bracket (ctx)
+			(define (find-bracket-helper (assoc-cdr 'brackets payload))
+				(if (null? brackets)
+					nil
+					(if (<= (car (car brackets)) (ctx 'value) (car (cdr (car brackets))))
+						(car brackets)
+						(find-bracket-helper (cdr brackets))))
+		(define payload
+			((brackets
+				((20000 0)
+				 (30000 10)
+				 (40000 15)
+				 (50000 20)
+				 (100000 30))
+			))
+		)
+		`
+		fmt.Fprint(w, payload)
+	})
+
 	// Start the server on port 8123
 	port := ":8123"
 	fmt.Printf("Starting server on %s/gonf\n", port)
