@@ -70,8 +70,8 @@ func main() {
 			(define (find-bracket-helper brackets)
 				(if (null? brackets)
 					nil
-					(if (<= (car (car brackets)) (ctx 'value) (car (cdr (car brackets))))
-						(car brackets)
+					(if (<= (car (car brackets)) ctx)
+						(cdr (car brackets))
 						(find-bracket-helper (cdr brackets)))))
 			(find-bracket-helper (assoc-cdr 'brackets payload))
 			)
