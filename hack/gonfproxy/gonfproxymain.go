@@ -63,6 +63,15 @@ func main() {
 
 	http.HandleFunc("/other", func(w http.ResponseWriter, r *http.Request) {
 		payload := `
+		(define (assoc key lst)
+			(cond
+				((null? lst) #f)
+				((equal? key (car (car lst))) (car lst))
+				(else (assoc key (cdr lst)))))
+
+		(define (assoc-cdr key lst)
+			(cdr (assoc key lst)))
+
 		(define (evaluate ctx)
 			(/ (* ctx (find-bracket ctx)) 100)
 		)
@@ -70,18 +79,17 @@ func main() {
 			(define (find-bracket-helper brackets)
 				(if (null? brackets)
 					0
-					(if (<= (caaar brackets) ctx)
-						(cadr (caar brackets))
+					(if (>= ctx (caar brackets))
+						(cadr (car brackets))
 						(find-bracket-helper (cdr brackets)))))
-			(find-bracket-helper (assoc-cdr 'brackets payload))
-			)
+			(find-bracket-helper (car (assoc-cdr 'brackets payload))))
 		(define payload
 			'((brackets
-				((20000 0)
-				 (30000 10)
-				 (40000 15)
+				((100000 30)
 				 (50000 20)
-				 (100000 30))
+				 (40000 15)
+				 (30000 10)
+				 (20000 0))
 			))
 		)
 		`
