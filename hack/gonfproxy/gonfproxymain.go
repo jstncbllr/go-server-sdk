@@ -40,23 +40,25 @@ func main() {
 		}
 
 		// Convert JSON to Scheme
-		scheme, err := json2scheme.JsonToScheme(body)
+		schemeData, err := json2scheme.JsonToScheme(body)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("Error converting to scheme: %v", err), http.StatusInternalServerError)
 			return
 		}
 
+		// Wrap the scheme data in a payload definition
+		wrappedScheme := fmt.Sprintf("(define payload '%s)", schemeData)
+
 		// Add the evaluate function definition
-		evaluateFunc := `(define (evaluate ctx flag-key default)
-			(assoc-cdr 'on (car (assoc-cdr flag-key (car (assoc-cdr 'flags payload)))))
-		)`
-		scheme = scheme + "\n" + evaluateFunc
+		evaluateFunc := `(define (evaluate ctx flag-key default)(assoc-cdr 'on (car (assoc-cdr flag-key (car (assoc-cdr 'flags payload))))))`
+		finalScheme := wrappedScheme + "\n" + evaluateFunc
+		// finalScheme := wrappedScheme
 
 		// Set content type header
 		w.Header().Set("Content-Type", "text/plain")
-		
+
 		// Write the scheme response
-		fmt.Fprint(w, scheme)
+		fmt.Fprint(w, finalScheme)
 	})
 
 	// Start the server on port 8123
