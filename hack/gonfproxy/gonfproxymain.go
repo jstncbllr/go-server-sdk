@@ -67,12 +67,14 @@ func main() {
 			(/ (* ctx (find-bracket ctx)) 100)
 		)
 		(define (find-bracket ctx)
-			(define (find-bracket-helper (assoc-cdr brackets payload))
+			(define (find-bracket-helper brackets)
 				(if (null? brackets)
 					nil
 					(if (<= (car (car brackets)) (ctx 'value) (car (cdr (car brackets))))
 						(car brackets)
-						(find-bracket-helper (cdr brackets))))))
+						(find-bracket-helper (cdr brackets)))))
+			(find-bracket-helper (assoc-cdr 'brackets payload))
+			)
 		(define payload
 			'((brackets
 				((20000 0)
