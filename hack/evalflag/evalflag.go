@@ -24,6 +24,29 @@ func fetchSchemeData() (string, error) {
 	return string(body), nil
 }
 
+func printBoolAscii(value string) {
+	if value == "(#t)" {
+		fmt.Println(`
+ _____  ____  _    _ _____ 
+|_   _||  _ \| |  | |  ___|
+  | |  | |_) | |  | | |__  
+  | |  |  _ <| |  | |  __| 
+  | |  | |_) | |__| | |___ 
+  |_|  |____/ \____/|_____|
+`)
+	} else if value == "(#f)" {
+		fmt.Println(`
+ _____ ___  _     ____  _____ 
+|  ___/ _ \| |   / ___|| ____|
+| |_ | | | | |   \___ \|  _|  
+|  _|| |_| | |___ ___) | |___ 
+|_|   \___/|_____|____/|_____|
+`)
+	} else {
+		panic(value)
+	}
+}
+
 func main() {
 	pollInterval := 5 * time.Second // Poll every 5 seconds
 	for {
@@ -74,8 +97,8 @@ func main() {
 			panic(err)
 		}
 
-		fmt.Printf("Flag value at %v: %v\n", time.Now().Format(time.RFC3339), result)
-		fmt.Printf("Flag value at %v: %s\n", time.Now().Format(time.RFC3339), result)
+		fmt.Printf("Flag value at %v: ", time.Now().Format(time.RFC3339))
+		printBoolAscii(result.Scheme())
 		time.Sleep(pollInterval)
 	}
 }
