@@ -72,7 +72,7 @@ func main() {
 					nil
 					(if (<= (car (car brackets)) (ctx 'value) (car (cdr (car brackets))))
 						(car brackets)
-						(find-bracket-helper (cdr brackets))))
+						(find-bracket-helper (cdr brackets))))))
 		(define payload
 			((brackets
 				((20000 0)
