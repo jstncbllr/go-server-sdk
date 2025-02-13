@@ -63,10 +63,10 @@ func main() {
 
 	http.HandleFunc("/other", func(w http.ResponseWriter, r *http.Request) {
 		payload := `
-		(define evaluate (ctx)
+		(define (evaluate ctx)
 			(/ (* ctx (find-bracket ctx)) 100)
 		)
-		(define find-bracket (ctx)
+		(define (find-bracket ctx)
 			(define (find-bracket-helper (assoc-cdr 'brackets payload))
 				(if (null? brackets)
 					nil
